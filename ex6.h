@@ -6,6 +6,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+typedef enum {
+   Bulbasaur = 1,
+   Charmander = 2,
+   Squirtle = 3,
+  } Starter;
 
 typedef enum
 {
@@ -65,7 +70,7 @@ OwnerNode *ownerHead = NULL;
 /* ------------------------------------------------------------
    1) Safe Input + Utility
    ------------------------------------------------------------ */
-
+PokemonNode *delete_t(PokemonNode *root);
 /**
  * @brief Remove leading/trailing whitespace (including '\r').
  * @param str modifiable string
@@ -123,7 +128,8 @@ PokemonNode *createPokemonNode(const PokemonData *data);
  * @return newly allocated OwnerNode*
  * Why we made it: Each user is represented as an OwnerNode.
  */
-OwnerNode *createOwner(char *ownerName, PokemonNode *starter);
+OwnerNode *createOwner();
+//OwnerNode *createOwner(char *ownerName, PokemonNode *starter);
 
 /**
  * @brief Free one PokemonNode (including name).
@@ -243,6 +249,8 @@ typedef struct
     PokemonNode **nodes;
     int size;
     int capacity;
+   int front;
+   int rear;
 } NodeArray;
 
 /**
@@ -336,7 +344,8 @@ void evolvePokemon(OwnerNode *owner);
  * @param owner pointer to the Owner
  * Why we made it: Primary user function for adding new Pokemon to an owner’s Pokedex.
  */
-void addPokemon(OwnerNode *owner);
+//'void addPokemon(OwnerNode *owner);
+PokemonNode* addPokemon(PokemonNode* owner, PokemonNode* added);
 
 /**
  * @brief Prompt for ID, remove that Pokemon from BST by ID.
@@ -408,7 +417,7 @@ OwnerNode *findOwnerByName(const char *name);
  * @brief Let user pick an existing Pokedex (owner) by number, then sub-menu.
  * Why we made it: This is the main interface for adding/fighting/evolving, etc.
  */
-void enterExistingPokedexMenu(void);
+//void enterExistingPokedexMenu(void);
 
 /**
  * @brief Creates a new Pokedex (prompt for name, check uniqueness, choose starter).
@@ -441,6 +450,18 @@ void printOwnersCircular(void);
 /* ------------------------------------------------------------
    12) Cleanup All Owners at Program End
    ------------------------------------------------------------ */
+
+const char* getEvolutionStatusName(EvolutionStatus status);
+const char* starterToString(Starter starter);
+PokemonNode* search_pokemon(PokemonNode* root, int id);
+void fight(PokemonNode* fight1, PokemonNode* fight2);
+PokemonNode* deletePokemonreal(PokemonNode* root, int id);
+OwnerNode* search_pokadex(OwnerNode* head, char* str);
+PokemonNode* addPokemon_merge(PokemonNode* owner, PokemonNode* added);
+void print_foward(OwnerNode* root, int times);
+void printbackwards(OwnerNode* root, int times);
+void mergepokadex(PokemonNode* roottoremove, PokemonNode* roottoadd);
+void freeall(OwnerNode* head);
 
 /**
  * @brief Frees every remaining owner in the circular list, setting ownerHead = NULL.
